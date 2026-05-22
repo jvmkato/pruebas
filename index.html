@@ -3,248 +3,692 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agencia Aduanera e Importadora</title>
+    <title>Prototipo Funcional - Agencia Aduanera Boliviana</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Animate.css para animaciones al cargar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
     <style>
-        /* Colores corporativos basados en el rubro aduanero (Azul oscuro y dorado/naranja) */
+        /* Colores corporativos avanzados */
         :root {
-            --primary-color: #0d2b45; /* Azul marino profundo */
-            --secondary-color: #ff9d00; /* Naranja/Dorado para resaltar */
+            --primary-color: #081f37; /* Azul marino más profundo */
+            --secondary-color: #f7a600; /* Naranja dorado vibrante */
+            --accent-color: #004a99; /* Azul medio para enlaces */
+            --light-bg: #f8f9fa;
         }
         
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             color: #333;
+            scroll-behavior: smooth; /* Desplazamiento suave nativo */
         }
 
-        /* Navbar */
-        .navbar {
-            background-color: var(--primary-color);
+        h1, h2, h3, h4, .navbar-brand {
+            font-weight: 700;
         }
-        .navbar-brand, .nav-link {
+
+        /* --- NAVBAR MEJORADA --- */
+        .navbar {
+            background-color: rgba(8, 31, 55, 0.95);
+            backdrop-filter: blur(5px); /* Efecto borroso moderno */
+            transition: all 0.3s ease;
+        }
+        .navbar-brand {
             color: #fff !important;
+            font-size: 1.5rem;
+        }
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
             font-weight: 500;
+            margin: 0 5px;
+            position: relative;
         }
         .nav-link:hover {
             color: var(--secondary-color) !important;
         }
+        /* Subrayado animado en hover */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .btn-nav-contact {
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color) !important;
+            border-radius: 30px;
+            padding: 5px 20px !important;
+        }
+        .btn-nav-contact:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color) !important;
+        }
 
-        /* Hero Section (Imagen principal) */
-        .hero-section {
-            background: linear-gradient(rgba(13, 43, 69, 0.8), rgba(13, 43, 69, 0.8)), url('https://images.unsplash.com/photo-1586528116311-ad8ed7c80a30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-            color: white;
-            padding: 150px 0;
-            text-align: center;
+        /* --- HERO CARRUSEL (INTERACTIVO) --- */
+        .carousel-item {
+            height: 90vh; /* Casi toda la altura de la pantalla */
+            min-height: 500px;
+            background-color: black;
         }
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-height: 100%;
+            object-fit: cover;
+            opacity: 0.6; /* Oscurecer imagen para texto */
         }
+        .carousel-caption {
+            bottom: 30%;
+            text-align: left;
+            max-width: 700px;
+            left: 10%;
+        }
+        .carousel-caption h1 {
+            font-size: 3.8rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* --- BOTONES INTERACTIVOS --- */
         .btn-custom {
             background-color: var(--secondary-color);
-            color: white;
+            color: var(--primary-color);
             font-weight: bold;
-            padding: 10px 30px;
+            padding: 12px 35px;
             border-radius: 5px;
-            transition: 0.3s;
+            border: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .btn-custom:hover {
-            background-color: #e68a00;
-            color: white;
+            background-color: #e69500;
+            transform: translateY(-3px); /* Pequeño salto */
+            box-shadow: 0 5px 15px rgba(247, 166, 0, 0.4);
+            color: var(--primary-color);
         }
 
-        /* Títulos de sección */
+        /* --- ESTILOS DE SECCIÓN --- */
+        .section-padding {
+            padding: 100px 0;
+        }
         .section-title {
             color: var(--primary-color);
-            font-weight: 700;
-            margin-bottom: 40px;
-            text-transform: uppercase;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+            margin-bottom: 50px;
         }
         .section-title::after {
             content: '';
-            width: 60px;
-            height: 4px;
+            width: 80px;
+            height: 5px;
             background-color: var(--secondary-color);
             position: absolute;
             bottom: 0;
+            left: 0;
+        }
+        .text-center .section-title::after {
             left: 50%;
             transform: translateX(-50%);
         }
 
-        /* Tarjetas de Servicios, Misión y Visión */
-        .card-custom {
+        /* --- TARJETAS DE SERVICIOS INTERACTIVAS --- */
+        .card-service {
             border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.4s ease;
             height: 100%;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-        .card-custom:hover {
+        .card-service:hover {
             transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
-        .icon-box {
-            font-size: 3rem;
+        .card-service .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .service-icon-box {
+            width: 70px;
+            height: 70px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
             color: var(--secondary-color);
-            margin-bottom: 15px;
+            margin-top: -35px; /* Superponer sobre la imagen */
+            position: relative;
+            margin-left: 20px;
+            border: 5px solid #fff;
         }
 
-        /* Footer */
+        /* --- SECCIÓN ESTADÍSTICAS (CONTADORES) --- */
+        .stats-section {
+            background: linear-gradient(rgba(8, 31, 55, 0.9), rgba(8, 31, 55, 0.9)), 
+                        url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1920') center/cover;
+            color: #fff;
+            padding: 80px 0;
+        }
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--secondary-color);
+        }
+
+        /* --- LÍNEA DE TIEMPO (PROCESO) --- */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: #ddd;
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 2px var(--secondary-color);
+            z-index: 1;
+        }
+        .timeline-content {
+            width: 45%;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        /* --- FORMULARIO Y MAPA --- */
+        .form-control, .form-select {
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(0, 74, 153, 0.1);
+        }
+        .map-container {
+            height: 100%;
+            min-height: 400px;
+            background-color: #eee;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+        }
+
+        /* --- FOOTER --- */
         .footer {
             background-color: var(--primary-color);
+            color: rgba(255,255,255,0.7);
+            padding: 80px 0 30px;
+        }
+        .footer h5 {
             color: #fff;
-            padding: 40px 0 20px;
+            margin-bottom: 25px;
         }
         .footer a {
-            color: #ccc;
+            color: rgba(255,255,255,0.7);
             text-decoration: none;
+            transition: color 0.3s;
         }
         .footer a:hover {
             color: var(--secondary-color);
+        }
+
+        /* --- BOTÓN FLOTANTE WHATSAPP --- */
+        .btn-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            transform: scale(1.1);
+            color: white;
+            background-color: #1ebd5a;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
+    <!-- Menú de Navegación -->
+    <nav class="navbar navbar-expand-lg fixed-top shadow-sm navbar-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
-                <i class="bi bi-globe-americas text-warning me-2"></i>NOMBRE EMPRESA
+            <a class="navbar-brand fw-bold" href="#heroCarousel">
+                <i class="bi bi-shield-check text-warning me-2"></i>LOGO EMPRESA
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#nosotros">Nuestra Empresa</a></li>
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#heroCarousel">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
                     <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#proceso">Proceso</a></li>
+                    <li class="nav-item"><a class="nav-link btn-nav-contact ms-lg-3" href="#contacto">Cotizar</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <section id="inicio" class="hero-section">
+    <!-- Carrusel Hero (Interactivo) -->
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active" data-bs-interval="5000">
+                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1920" class="carousel-image" alt="Puerto de contenedores">
+                <div class="carousel-caption d-none d-md-block animate__animated animate__fadeInUp">
+                    <h1>Tu Carga en Bolivia, <span class="text-warning">Sin Complicaciones</span>.</h1>
+                    <p class="lead mb-4 fs-4">Expertos en desaduanización rápida y logística integral. Conectamos tu negocio con el mundo.</p>
+                    <a href="#contacto" class="btn btn-custom btn-lg">Empezar Importación</a>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="https://images.unsplash.com/photo-1566311656204-747656114b09?q=80&w=1920" class="carousel-image" alt="Transporte aéreo">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Seguridad Aduanera <span class="text-warning">Garantizada</span>.</h1>
+                    <p class="lead mb-4 fs-4">Reducimos tiempos y costos operativos gracias a nuestra experiencia y tecnología.</p>
+                    <a href="#servicios" class="btn btn-custom btn-lg">Nuestros Servicios</a>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="https://images.unsplash.com/photo-1494412519320-aa613dfb7738?q=80&w=1920" class="carousel-image" alt="Camión en carretera">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Socio Logístico Estratégico.</h1>
+                    <p class="lead mb-4 fs-4">Llegamos a todas las aduanas del país (La Paz, Santa Cruz, Oruro, Cochabamba).</p>
+                    <a href="#contacto" class="btn btn-custom btn-lg">Solicitar Asesoría</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- Sección Nosotros (con imagen lateral) -->
+    <section id="nosotros" class="section-padding bg-white">
         <div class="container">
-            <h1 class="display-4">Tu Socio Estratégico en Importaciones y Aduanas</h1>
-            <p class="lead mb-4">Agilizamos tus trámites aduaneros con seguridad, eficiencia y transparencia. Llevamos tu negocio al mundo.</p>
-            <a href="#contacto" class="btn btn-custom btn-lg">Cotizar un Servicio</a>
-        </div>
-    </section>
-
-    <section id="nosotros" class="py-5 bg-light">
-        <div class="container text-center">
-            <h2 class="section-title">Nuestra Empresa</h2>
-            
-            <div class="row justify-content-center mb-5">
-                <div class="col-md-8 text-start">
-                    <h4 class="text-primary-color mb-3"><i class="bi bi-clock-history me-2 text-warning"></i>Nuestra Historia y Fundación</h4>
-                    <p>Fundada en el año [AÑO], <strong>[Nombre de la Empresa]</strong> nació con el firme propósito de facilitar el comercio exterior en el país. Comenzamos como una pequeña agencia y, gracias a la confianza de nuestros clientes y la experiencia de nuestro equipo de profesionales, nos hemos consolidado como una de las importadoras y agencias aduaneras más confiables del mercado. Conocemos a fondo las normativas vigentes, garantizando que sus mercancías lleguen a su destino sin contratiempos.</p>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1553413719-87a192809e33?q=80&w=800" alt="Oficina logística" class="img-fluid rounded shadow-lg">
                 </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card card-custom p-4">
-                        <div class="icon-box"><i class="bi bi-bullseye"></i></div>
-                        <h4 class="fw-bold">Nuestra Misión</h4>
-                        <p class="text-muted">Brindar servicios integrales de despacho aduanero, importación y logística internacional, ofreciendo soluciones ágiles, seguras y personalizadas que optimicen el tiempo y los recursos de nuestros clientes, cumpliendo estrictamente con la normativa legal vigente.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card card-custom p-4">
-                        <div class="icon-box"><i class="bi bi-eye"></i></div>
-                        <h4 class="fw-bold">Nuestra Visión</h4>
-                        <p class="text-muted">Ser la agencia aduanera e importadora líder a nivel nacional, reconocida por la excelencia operativa, la innovación tecnológica en nuestros procesos y nuestro compromiso inquebrantable con el éxito comercial de nuestros socios y clientes.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="servicios" class="py-5">
-        <div class="container text-center">
-            <h2 class="section-title">Nuestros Servicios</h2>
-            <p class="mb-5 text-muted">Ofrecemos soluciones logísticas completas para tu tranquilidad.</p>
-            
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="card card-custom p-4">
-                        <div class="icon-box"><i class="bi bi-file-earmark-check"></i></div>
-                        <h5 class="fw-bold">Despacho Aduanero</h5>
-                        <p class="text-muted">Gestión rápida y eficiente de trámites de importación y exportación, asegurando el cumplimiento legal.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card card-custom p-4">
-                        <div class="icon-box"><i class="bi bi-ship"></i></div>
-                        <h5 class="fw-bold">Logística y Transporte</h5>
-                        <p class="text-muted">Coordinación de transporte internacional (marítimo, aéreo, terrestre) hasta la puerta de su almacén.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card card-custom p-4">
-                        <div class="icon-box"><i class="bi bi-shield-check"></i></div>
-                        <h5 class="fw-bold">Asesoría Legal Aduanera</h5>
-                        <p class="text-muted">Consultoría experta en clasificación arancelaria, normativas, y beneficios tributarios.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contacto" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="section-title text-center">Póngase en Contacto</h2>
-            <div class="row mt-5">
-                <div class="col-md-5 mb-4">
-                    <h4 class="fw-bold mb-4">Información de Contacto</h4>
-                    <p><i class="bi bi-geo-alt-fill text-warning me-2"></i> Av. Principal #123, Ciudad, Bolivia</p>
-                    <p><i class="bi bi-telephone-fill text-warning me-2"></i> +591 70000000</p>
-                    <p><i class="bi bi-envelope-fill text-warning me-2"></i> info@empresaaduanera.com</p>
-                    <h5 class="fw-bold mt-4 mb-3">Horario de Atención</h5>
-                    <p>Lunes a Viernes: 08:30 - 18:30<br>Sábados: 09:00 - 12:30</p>
-                </div>
-                <div class="col-md-7">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Su Nombre" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" placeholder="Su Correo Electrónico" required>
-                            </div>
-                            <div class="col-12">
-                                <input type="text" class="form-control" placeholder="Asunto (Ej. Cotización de Importación)">
-                            </div>
-                            <div class="col-12">
-                                <textarea class="form-control" rows="5" placeholder="¿En qué podemos ayudarle?" required></textarea>
-                            </div>
-                            <div class="col-12 text-end">
-                                <button type="submit" class="btn btn-custom">Enviar Mensaje</button>
-                            </div>
+                <div class="col-lg-6 ps-lg-5">
+                    <h2 class="section-title">Nuestra Empresa</h2>
+                    <p class="lead text-primary mb-4">Liderazgo y Confianza en Comercio Exterior desde [AÑO].</p>
+                    <p>Fundada en Bolivia, <strong>[Nombre Empresa]</strong> nace con la misión de agilizar la cadena de suministro de importadores y exportadores. No solo gestionamos papeles; creamos soluciones logísticas que permiten a nuestros clientes enfocarse en crecer sus negocios, confiando en que sus mercancías están en las mejores manos y cumplen con toda la normativa legal.</p>
+                    
+                    <!-- Pestañas Interactivas Misión/Visión -->
+                    <div class="mt-4">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active btn-sm" id="pills-mision-tab" data-bs-toggle="pill" data-bs-target="#pills-mision" type="button">Misión</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link btn-sm" id="pills-vision-tab" data-bs-toggle="pill" data-bs-target="#pills-vision" type="button">Visión</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content bg-light p-3 rounded border" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-mision">Brindar servicios integrales de despacho aduanero y logística con excelencia operativa, seguridad y transparencia.</div>
+                            <div class="tab-pane fade" id="pills-vision">Ser reconocidos como la agencia aduanera digital líder en Bolivia, innovando constantemente en procesos para el éxito de nuestros clientes.</div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container text-center">
-            <div class="mb-3">
-                <a href="#" class="fs-4 me-3"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="fs-4 me-3"><i class="bi bi-whatsapp"></i></a>
-                <a href="#" class="fs-4"><i class="bi bi-linkedin"></i></a>
+    <!-- Sección Estadísticas (Contadores dinámicos) -->
+    <section class="stats-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <i class="bi bi-briefcase fs-1 text-warning mb-2"></i>
+                    <div class="stat-number" data-target="15">+<span class="count">0</span></div>
+                    <p>Años de Experiencia</p>
+                </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <i class="bi bi-box-seam fs-1 text-warning mb-2"></i>
+                    <div class="stat-number" data-target="5000">+<span class="count">0</span></div>
+                    <p>Despachos Exitosos</p>
+                </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <i class="bi bi-people fs-1 text-warning mb-2"></i>
+                    <div class="stat-number" data-target="200">+<span class="count">0</span></div>
+                    <p>Clientes Felices</p>
+                </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <i class="bi bi-truck fs-1 text-warning mb-2"></i>
+                    <div class="stat-number" data-target="100">+<span class="count">0</span></div>
+                    <p>Aliados Logísticos</p>
+                </div>
             </div>
-            <p class="mb-0">&copy; 2026 [Nombre de la Empresa]. Todos los derechos reservados.</p>
+        </div>
+    </section>
+
+    <!-- Sección Servicios (Tarjetas Interactivas + Modales) -->
+    <section id="servicios" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title text-center">Soluciones Aduaneras Integrales</h2>
+            <p class="text-center text-muted mb-5">Haga clic en "Saber Más" para detalles interactivos.</p>
+            
+            <div class="row g-4">
+                <!-- Servicio 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-service shadow">
+                        <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=600" class="card-img-top" alt="Almacén">
+                        <div class="service-icon-box shadow">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <div class="card-body pt-4">
+                            <h5 class="card-title fw-bold">Despacho Aduanero</h5>
+                            <p class="card-text text-muted">Gestión de trámites de Importación y Exportación ante la Aduana Nacional (ANB).</p>
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalServicio1">Saber Más <i class="bi bi-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-service shadow">
+                        <img src="https://images.unsplash.com/photo-1590242279267-3475f4eb120c?q=80&w=600" class="card-img-top" alt="Barco">
+                        <div class="service-icon-box shadow">
+                            <i class="bi bi-globe"></i>
+                        </div>
+                        <div class="card-body pt-4">
+                            <h5 class="card-title fw-bold">Logística Internacional</h5>
+                            <p class="card-text text-muted">Coordinación de transporte multimodal (Marítimo, Aéreo, Terrestre) hacia Bolivia.</p>
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalServicio2">Saber Más <i class="bi bi-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-service shadow">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600" class="card-img-top" alt="Asesoría">
+                        <div class="service-icon-box shadow">
+                            <i class="bi bi-headset"></i>
+                        </div>
+                        <div class="card-body pt-4">
+                            <h5 class="card-title fw-bold">Asesoría Especializada</h5>
+                            <p class="card-text text-muted">Consultoría en clasificación arancelaria, normativas específicas y tributos aduaneros.</p>
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalServicio3">Saber Más <i class="bi bi-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modales de Servicios (Pop-ups interactivos) -->
+    <!-- Modal 1 -->
+    <div class="modal fade" id="modalServicio1" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-file-earmark-text me-2"></i>Detalles: Despacho Aduanero</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Nuestro servicio incluye la elaboración, validación y seguimiento de la Declaración Única de Importación (DUI), gestión de licencias previas, y representación ante la aduana para el levante de mercancías en plazos mínimos.</p>
+                    <ul>
+                        <li>Importación para el consumo.</li>
+                        <li>Admisión temporal.</li>
+                        <li>Tránsito aduanero.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 2 -->
+    <div class="modal fade" id="modalServicio2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-globe me-2"></i>Logística Internacional Multimodal</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Coordinamos la cadena logística desde origen hasta destino final (puerta a puerta). Trabajamos con las principales navieras y aerolíneas, y aseguramos el transporte terrestre desde puertos chilenos o peruanos hacia cualquier ciudad de Bolivia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 3 -->
+    <div class="modal fade" id="modalServicio3" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-headset me-2"></i>Asesoría en Comercio Exterior</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Evite multas y demoras con nuestra asesoría experta. Le ayudamos a determinar la clasificación arancelaria correcta de su producto, calcular los impuestos a pagar y verificar los requisitos no arancelarios necesarios para su importación legal en Bolivia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección Proceso (Línea de Tiempo Visual) -->
+    <section id="proceso" class="section-padding bg-white">
+        <div class="container">
+            <h2 class="section-title text-center">Así Trabajamos</h2>
+            <p class="text-center text-muted mb-5">Un proceso claro y eficiente para su tranquilidad.</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5 class="fw-bold text-primary">1. Solicitud y Cotización</h5>
+                        <p class="text-muted small mb-0">Usted nos contacta, nos detalla su carga y origen, y le enviamos una propuesta logística y económica ajustada.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5 class="fw-bold text-primary">2. Coordinación en Origen</h5>
+                        <p class="text-muted small mb-0">Contactamos al proveedor, verificamos documentos y coordinamos el recojo y transporte hacia Bolivia.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5 class="fw-bold text-primary">3. Llegada a Aduana y Trámite</h5>
+                        <p class="text-muted small mb-0">La mercancía llega a frontera/aeropuerto. Iniciamos el despacho aduanero y pago de tributos.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5 class="fw-bold text-primary">4. Levante y Entrega Final</h5>
+                        <p class="text-muted small mb-0">Una vez autorizada por la Aduana, retiramos la carga y la entregamos en su almacén.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Contacto (Formulario funcional + Mapa interactivo placeholder) -->
+    <section id="contacto" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title text-center">Cotice su Próxima Importación</h2>
+            <div class="row mt-5 g-4 align-items-center">
+                <div class="col-lg-6">
+                    <div class="bg-white p-5 rounded shadow">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-12 form-floating">
+                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre Completo" required>
+                                    <label for="nombre">Nombre Completo / Empresa</label>
+                                </div>
+                                <div class="col-md-6 form-floating">
+                                    <input type="email" class="form-control" id="email" placeholder="Correo" required>
+                                    <label for="email">Correo Electrónico</label>
+                                </div>
+                                <div class="col-md-6 form-floating">
+                                    <input type="tel" class="form-control" id="tel" placeholder="Teléfono" required>
+                                    <label for="tel">WhatsApp / Teléfono</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-select" id="servicioSelect">
+                                        <option selected>Seleccione Servicio</option>
+                                        <option value="1">Despacho Aduanero</option>
+                                        <option value="2">Logística Completa</option>
+                                        <option value="3">Asesoría</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 form-floating">
+                                    <textarea class="form-control" id="mensaje" placeholder="Mensaje" style="height: 120px" required></textarea>
+                                    <label for="mensaje">Detalles de la carga (Peso, Medidas, Origen)</label>
+                                </div>
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-custom w-100">Enviar Solicitud <i class="bi bi-send-fill ms-2"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="map-container shadow p-4 border bg-white">
+                        <div class="w-100 h-100 rounded border d-flex flex-column align-items-center justify-content-center bg-light text-muted p-4">
+                            <i class="bi bi-geo-alt-fill fs-1 text-primary mb-3"></i>
+                            <h5 class="fw-bold text-dark">Nuestra Oficina</h5>
+                            <p class="text-center small">Av. Principal #123, Edificio Comercio, Piso 5<br>Santa Cruz de la Sierra, Bolivia</p>
+                            <p class="small"><i class="bi bi-telephone text-primary"></i> +591 3 3333333<br><i class="bi bi-envelope text-primary"></i> contacto@empresa.com.bo</p>
+                            <span class="badge bg-secondary">MAPA INTERACTIVO (PROTOTIPO)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5><i class="bi bi-shield-check text-warning me-2"></i>[NOMBRE EMPRESA]</h5>
+                    <p class="small">Tu socio confiable en desaduanización y logística en Bolivia. Eficiencia y cumplimiento legal garantizados.</p>
+                    <div class="fs-4 mt-3">
+                        <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Enlaces</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#heroCarousel">Inicio</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#proceso">Proceso</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h5>Servicios</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalServicio1">Despacho de DUI</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalServicio2">Transporte Marítimo</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalServicio2">Transporte Terrestre</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalServicio3">Asesoría Arancelaria</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Horario</h5>
+                    <p class="small">Lun - Vie: 08:30 - 18:30<br>Sáb: 09:00 - 12:30</p>
+                </div>
+            </div>
+            <hr class="border-light mt-5">
+            <div class="text-center small mt-4">
+                <p class="mb-0">&copy; 2026 [Nombre Empresa]. Todos los derechos reservados.</p>
+            </div>
         </div>
     </footer>
 
+    <!-- Botón Flotante WhatsApp -->
+    <a href="https://wa.me/591XXXXXXXX" class="btn-whatsapp" target="_blank">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle con Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JS Simple para el contador dinámico -->
+    <script>
+        const counters = document.querySelectorAll('.count');
+        const speed = 200; // Cuanto más alto, más lento
+
+        counters.forEach(counter => {
+            const animate = () => {
+                const value = +counter.parentElement.getAttribute('data-target');
+                const data = +counter.innerText;
+                const time = value / speed;
+                if (data < value) {
+                    counter.innerText = Math.ceil(data + time);
+                    setTimeout(animate, 1);
+                } else {
+                    counter.innerText = value;
+                }
+            }
+            // Ejecutar animación cuando la sección sea visible (simple)
+            // Para prototipo, ejecutar al cargar. En producción usar IntersectionObserver
+            animate();
+        });
+    </script>
 </body>
 </html>
